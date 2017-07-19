@@ -1,21 +1,30 @@
 # -*- coding: utf-8 -*-
 import scrapy
+from walker.items import Meme
+from scrapy.loader import ItemLoader
 from scrapy.linkextractors import LinkExtractor
-from scrapy.spiders import CrawlSpider, Rule
+from scrapy.spiders import Spider
 
 
-class JbzdSpider(CrawlSpider):
+class JbzdSpider(Spider):
     name = 'jbzd'
-    allowed_domains = ['jbzd.pl']
+    allowed_domains = [
+        'jbzd.pl',
+        'jbzdy.pl'
+    ]
     start_urls = ['http://jbzd.pl/']
 
-    rules = (
-        Rule(LinkExtractor(allow=r'Items/'), callback='parse_item', follow=True),
-    )
 
-    def parse_item(self, response):
-        i = {}
-        #i['domain_id'] = response.xpath('//input[@id="sid"]/@value').extract()
-        #i['name'] = response.xpath('//div[@id="name"]').extract()
-        #i['description'] = response.xpath('//div[@id="description"]').extract()
-        return i
+    def parse(self, response):
+        for memeContainer in response.xpath("//div[@class='content-info' and not(descendant::video)]"):
+            loader = ItemLoader(Meme(),memeContainer)
+            loader.add_xpath('src', ".//div[@class='media']/descendant::img/@src")
+            loader.add_xpath('tags', ".//div[@class='info']/div[@class='tags']/a[@class='tag']/@data-tag")
+            yield loader.load_item()
+
+        next_link = response.xpath("//a[@class='btn-next-page']/@href").extract_first()
+        next_link = response.urljoin(next_link)
+        yield scrapy.Request(
+            url = next_link,
+            callback = self.parse
+        )
