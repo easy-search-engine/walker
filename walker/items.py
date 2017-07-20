@@ -44,9 +44,9 @@ class ExtractDate(TakeFirst):
         if time_unit in ["tygodni", "tygodnie", "tydzień"]:
             return timedelta(weeks = time_val)
         if time_unit in ["miesięcy", "miesiące", "miesiąc"]:
-            return timedelta(months = time_val)
+            return timedelta(days = time_val * 30)
         if time_unit in ["lat", "lata", "rok"]:
-            return timedelta(years = time_val)
+            return timedelta(days = time_val * 365)
     
     def parseDiff(self, diff_strings):
         (time_val, time_unit) = diff_strings
