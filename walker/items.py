@@ -31,7 +31,8 @@ class ExtractDate(TakeFirst):
         [time_val, time_unit] = string_date.strip().split(" ")[0:2]
         return (int(time_val), time_unit)
 
-    def getDelta(self, time_val, time_unit):
+    def getDelta(self, diff_strings):
+        (time_val, time_unit) = diff_strings
         time_unit = time_unit.lower()
         if time_unit in ["sekund", "sekundy", "sekunda", "sekundę"]:
             return timedelta(seconds = time_val)
@@ -49,8 +50,7 @@ class ExtractDate(TakeFirst):
             return timedelta(days = time_val * 365)
     
     def parseDiff(self, diff_strings):
-        (time_val, time_unit) = diff_strings
-        date_delta = self.getDelta(time_val, time_unit)
+        date_delta = self.getDelta(diff_strings)
         date = datetime.today() - date_delta
         return date.strftime('%Y-%m-%d %H:%M:%S')
 
