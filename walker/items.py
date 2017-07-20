@@ -32,11 +32,11 @@ class ExtractDate(TakeFirst):
         return (int(time_val), time_unit)
 
     def getDelta(self, time_val, time_unit):
-        if time_unit in ["sekund", "sekundy", "sekunda"]:
+        if time_unit in ["sekund", "sekundy", "sekunda", "sekundę"]:
             return timedelta(seconds = time_val)
-        if time_unit in ["minut", "minuty", "minuta"]:
+        if time_unit in ["minut", "minuty", "minuta", "minutę"]:
             return timedelta(minutes = time_val)
-        if time_unit in ["godzin", "godziny", "godzina"]:
+        if time_unit in ["godzin", "godziny", "godzina", "godzinę"]:
             return timedelta(hours = time_val)
         if time_unit in ["tygodni", "tygodnie", "tydzień"]:
             return timedelta(weeks = time_val)
@@ -44,8 +44,6 @@ class ExtractDate(TakeFirst):
             return timedelta(months = time_val)
         if time_unit in ["lat", "lata", "rok"]:
             return timedelta(years = time_val)
-
-
     
     def parseDiff(self, diff_strings):
         (time_val, time_unit) = diff_strings
