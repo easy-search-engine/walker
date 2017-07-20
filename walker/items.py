@@ -32,12 +32,15 @@ class ExtractDate(TakeFirst):
         return (int(time_val), time_unit)
 
     def getDelta(self, time_val, time_unit):
+        time_unit = time_unit.lower()
         if time_unit in ["sekund", "sekundy", "sekunda", "sekundę"]:
             return timedelta(seconds = time_val)
         if time_unit in ["minut", "minuty", "minuta", "minutę"]:
             return timedelta(minutes = time_val)
         if time_unit in ["godzin", "godziny", "godzina", "godzinę"]:
             return timedelta(hours = time_val)
+        if time_unit in ["dni", "dzień"]:
+            return timedelta(days = time_val)
         if time_unit in ["tygodni", "tygodnie", "tydzień"]:
             return timedelta(weeks = time_val)
         if time_unit in ["miesięcy", "miesiące", "miesiąc"]:
