@@ -15,3 +15,4 @@ class Meme(scrapy.Item):
     """
     src = scrapy.Field(output_processor=TakeFirst())
     tags = scrapy.Field()
+    rating = scrapy.Field(output_processor=TakeFirst())
