@@ -8,6 +8,12 @@
 import scrapy
 from scrapy.loader.processors import TakeFirst
 
+class TransformerComments(TakeFirst):
+    def __call__(self, values):
+        string_comments = super().__call__(values)
+        string_comments = string_comments.replace("\n","")
+        string_comments = string_comments.replace(" ","")
+        return string_comments
 
 class Meme(scrapy.Item):
     """
@@ -15,3 +21,4 @@ class Meme(scrapy.Item):
     """
     src = scrapy.Field(output_processor=TakeFirst())
     tags = scrapy.Field()
+    comments = scrapy.Field(output_processor=TransformerComments())
