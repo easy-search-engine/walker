@@ -21,6 +21,7 @@ class JbzdSpider(Spider):
             loader.add_xpath('src', ".//div[@class='media']/descendant::img/@src")
             loader.add_xpath('tags', ".//div[@class='info']/div[@class='tags']/a[@class='tag']/@data-tag")
             loader.add_xpath('rating', ".//a[@class='btn-plus']/span/text()")
+            loader.add_xpath('comments', ".//span[@class='comments']/text()[normalize-space()]")
             yield loader.load_item()
 
         next_link = response.xpath("//a[@class='btn-next-page']/@href").extract_first()
