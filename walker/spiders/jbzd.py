@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import scrapy
+import re
 from walker.items import Meme
 from scrapy.loader import ItemLoader
 from scrapy.linkextractors import LinkExtractor
@@ -27,7 +28,8 @@ class JbzdSpider(Spider):
 
         next_link = response.xpath("//a[@class='btn-next-page']/@href").extract_first()
         next_link = response.urljoin(next_link)
-        yield scrapy.Request(
-            url = next_link,
-            callback = self.parse
-        )
+        if re.search(r"/strona/", next_link) is not None:
+            yield scrapy.Request(
+                url = next_link,
+                callback = self.parse
+            )
