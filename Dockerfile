@@ -1,10 +1,7 @@
 FROM python:3
 
-WORKDIR ~/Projects/easy-search-engine/walker/
-
-COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
-
-COPY . .
+WORKDIR /var/walker
+ADD requirements.txt ./
+RUN pip install -r requirements.txt
 
 CMD [ "scrapy", "crawl", "jbzd" ]
